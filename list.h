@@ -227,12 +227,12 @@ T List<T>::get(uint index) const {
     int j = 0;
 
 	if (index >= size){
-		throw IndexOutOfBounds("Oh no! The index is greater or equal to the size of the list");
+		throw IndexOutOfBounds();
 	}
 
     while (aux != NULL) {
         if (j == index)
-            return (current->data);
+            return (aux->value);
         j++;
         aux = j->next;
     }
@@ -295,7 +295,7 @@ void List<T>::insert_at(T val, uint index) {
 	new_node -> value = val;
 
 	if (index > size) {
-		throw IndexOutOfBounds("Oh no! The index is greater than the size of the list");
+		throw IndexOutOfBounds();
 	}
 	else if (index == 0){
 		new_node -> next = first_element;
