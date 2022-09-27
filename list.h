@@ -1,8 +1,8 @@
 // =================================================================
 //
 // File: list.h
-// Author:
-// Date:
+// Author: David René Langarica Hernández | A0708936
+// Date: 27/09/2022
 // 
 // =================================================================
 #ifndef LIST_H
@@ -223,9 +223,20 @@ T List<T>::last() const {
 // =================================================================
 template <class T>
 T List<T>::get(uint index) const {
-	T aux;
+	T aux = head; 
+    int j = 0;
 
-	// TO DO
+	if (index >= size){
+		throw IndexOutOfBounds("Oh no! The index is greater or equal to the size of the list");
+	}
+
+    while (aux != NULL) {
+        if (j == index)
+            return (current->data);
+        j++;
+        aux = j->next;
+    }
+
 	return aux;
 }
 
@@ -272,10 +283,33 @@ void List<T>::push_back(T val) {
 // was in that position is shifted to the right.
 //
 // @throws IndexOutOfBounds, if index > size.
+// Agregar complejidad
 // =================================================================
 template <class T>
 void List<T>::insert_at(T val, uint index) {
-	// TO DO
+	Node<T> *new_node;
+	Node<T> *first_element = NULL;
+	int i;
+
+	new_node = new Node<T>();
+	new_node -> value = val;
+
+	if (index > size) {
+		throw IndexOutOfBounds("Oh no! The index is greater than the size of the list");
+	}
+	else if (index == 0){
+		new_node -> next = first_element;
+		first_element = new_node;
+	}
+	else {
+		for (i = 0; i < index - 1; i++) {
+			first_element = first_element -> next;
+		}
+		new_node -> next = first_element -> next;
+		first_element -> next = new_node;
+	}
+
+
 }
 
 // =================================================================
