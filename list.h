@@ -220,7 +220,7 @@ T List<T>::last() const {
 //
 // @returns the element in index
 // @throws IndexOutOfBounds, if index >= size.
-/* @Complexity O(n), el ciclo 'for' depende de la condición de que 'element' no llegue hasta NULL y la variable de control 'i' se suma en cada iteración*/
+/* @Complexity O(n), el ciclo 'for' depende de la condición de que 'element' no llegue hasta NULL y la variable de control 'i' se suma en cada iteración. */
 // =================================================================
 template <class T>
 T List<T>::get(uint index) const {
