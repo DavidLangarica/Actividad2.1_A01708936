@@ -290,10 +290,8 @@ void List<T>::push_back(T val) {
 // was in that position is shifted to the right.
 //
 // @throws IndexOutOfBounds, if index > size.
-/* @Complexity omplejidad O(n), pues
- * esta suma depende linealmente del elemento 'n' de la función, dicha 'n'
- * define cuantas veces se estará implementando el ciclo for en la suma, ya que
- * la variable de control 'i' depende precisamente de la variable 'n' para dicha acción. */
+/* @Complexity En el caso del 'else' (para cuando el index es cualquier posición excepto la primera), la complejidad es O(n), pues la variable de control 'i' depende de la variable 'index' y esta se suma
+	en cada paso. Asimismo no hay bucles anidados. Por el otro lado, si se entra a alguno de los otros 'if' la complejidad es O(1) a razón de que solo se ejecutan 1 vez. */
 // =================================================================
 template <class T>
 void List<T>::insert_at(T val, uint index) {
