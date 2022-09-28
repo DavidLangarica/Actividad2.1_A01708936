@@ -220,24 +220,36 @@ T List<T>::last() const {
 //
 // @returns the element in index
 // @throws IndexOutOfBounds, if index >= size.
+// EDITARRRR
 // =================================================================
 template <class T>
 T List<T>::get(uint index) const {
-	T aux = head; 
-    int j = 0;
+	T value;
+	Node<T> *element;
 
-	if (index >= size){
+	if (index >= size)
+	{
 		throw IndexOutOfBounds();
 	}
 
-    while (aux != NULL) {
-        if (j == index)
-            return (aux->value);
-        j++;
-        aux = j->next;
-    }
+	if (empty())
+	{
+		throw NoSuchElement();
+	}
 
-	return aux;
+	element = head;
+
+	int count = 0;
+
+	while (element != NULL)
+	{
+		if (count == index)
+			return (element -> value);
+		element = element -> next;
+		count++;
+	}
+
+	return value;
 }
 
 // =================================================================
@@ -287,29 +299,31 @@ void List<T>::push_back(T val) {
 // =================================================================
 template <class T>
 void List<T>::insert_at(T val, uint index) {
-	Node<T> *new_node;
-	Node<T> *first_element = NULL;
+	Node<T> *new_node = new Node<T>(val);
+	new_node->value = val;
+	new_node->next = NULL;
+	
+	Node<T> *temp_node = new Node<T>(val);
+	temp_node = head;
 	int i;
 
-	new_node = new Node<T>();
-	new_node -> value = val;
-
-	if (index > size) {
+	if (index > size){
 		throw IndexOutOfBounds();
 	}
+
 	else if (index == 0){
-		new_node -> next = first_element;
-		first_element = new_node;
+		new_node->next = head;
+		head = new_node;
 	}
+
 	else {
-		for (i = 0; i < index - 1; i++) {
-			first_element = first_element -> next;
+		for (i = 0; i < index - 1; i++){
+			temp_node = temp_node->next;
 		}
-		new_node -> next = first_element -> next;
-		first_element -> next = new_node;
+		new_node->next = temp_node->next;
+		temp_node->next = new_node; 
 	}
-
-
+	size++;
 }
 
 // =================================================================
@@ -381,7 +395,33 @@ T List<T>::pop_back() {
 template <class T>
 T List<T>::remove_at(uint index) {
 	T aux;
-	// TO DO
+
+	Node<T> *current = *head;
+	Node<T> *prev = *head;
+
+	if (index >= size){
+		throw IndexOutOfBounds();
+	}
+
+	else if (index == 0){
+		*head = current -> next;
+		free(current);
+		current = NULL;
+	}
+
+	else{
+		while (index != 1){
+			prev = current;
+			current = current->next;
+			index--;
+		}
+		prev->next = current->next;
+		free(current);
+		current = NULL;
+	}
+
+	size--;
+
 	return aux;
 }
 
@@ -392,8 +432,27 @@ T List<T>::remove_at(uint index) {
 // @throws IndexOutOfBounds, if index >= size.
 // =================================================================
 template <class T>
-long int List<T>::indexOf(T val) const {
-	// TO DO
+long int List<T>::indexOf(T val) const{
+
+	if (empty())
+	{
+		throw NoSuchElement();
+	}
+
+	Node<T> *val_node;
+	val_node = head;
+	int index = -1;
+
+	while (val_node)
+	{
+		index++;
+		if (val_node->value == val)
+		{
+			return index;
+		}
+		val_node = val_node->next;
+	}
+
 	return -1;
 }
 
