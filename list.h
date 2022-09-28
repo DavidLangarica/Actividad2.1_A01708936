@@ -232,11 +232,6 @@ T List<T>::get(uint index) const {
 		throw IndexOutOfBounds();
 	}
 
-	if (empty())
-	{
-		throw NoSuchElement();
-	}
-
 	element = head;
 
 	int count = 0;
@@ -302,10 +297,6 @@ void List<T>::insert_at(T val, uint index) {
 	Node<T> *new_node = new Node<T>(val);
 	new_node->value = val;
 	new_node->next = NULL;
-	
-	Node<T> *temp_node = new Node<T>(val);
-	temp_node = head;
-	int i;
 
 	if (index > size){
 		throw IndexOutOfBounds();
@@ -317,7 +308,10 @@ void List<T>::insert_at(T val, uint index) {
 	}
 
 	else {
-		for (i = 0; i < index - 1; i++){
+		Node<T> *temp_node = new Node<T>(val);
+		temp_node = head;
+
+		for (size_t i = 0; i < index - 1; i++){
 			temp_node = temp_node->next;
 		}
 		new_node->next = temp_node->next;
@@ -394,35 +388,44 @@ T List<T>::pop_back() {
 // =================================================================
 template <class T>
 T List<T>::remove_at(uint index) {
-	T aux;
-
-	Node<T> *current = *head;
-	Node<T> *prev = *head;
 
 	if (index >= size){
 		throw IndexOutOfBounds();
 	}
 
 	else if (index == 0){
-		*head = current -> next;
-		free(current);
-		current = NULL;
+	 	return pop_front();
+	}
+
+	else if (index == size - 1){
+		return pop_back();
 	}
 
 	else{
-		while (index != 1){
-			prev = current;
-			current = current->next;
-			index--;
+
+		T aux;
+		Node<T> *out_node = head;
+		Node<T> *temp_node = NULL;
+		size_t i = 0;
+
+		while (i < index)
+		{
+			temp_node = out_node;
+			out_node = out_node->next;
+			i++;
 		}
-		prev->next = current->next;
-		free(current);
-		current = NULL;
+
+		temp_node->next = out_node->next;
+
+		aux = out_node->value;
+
+		delete out_node;
+	
+		size--;
+
+		return aux;
 	}
-
-	size--;
-
-	return aux;
+	
 }
 
 // =================================================================
@@ -452,7 +455,7 @@ long int List<T>::indexOf(T val) const{
 		}
 		val_node = val_node->next;
 	}
-
+ 
 	return -1;
 }
 
