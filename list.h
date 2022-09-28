@@ -220,28 +220,26 @@ T List<T>::last() const {
 //
 // @returns the element in index
 // @throws IndexOutOfBounds, if index >= size.
-// EDITARRRR
+/* @Complexity O(n), el ciclo 'for' depende de la condición de que 'element' no llegue hasta NULL y la variable de control 'i' se suma en cada iteración*/
 // =================================================================
 template <class T>
 T List<T>::get(uint index) const {
 	T value;
 	Node<T> *element;
+	element = head;
+	size_t i;
 
 	if (index >= size)
 	{
+		// index out of bounds
 		throw IndexOutOfBounds();
 	}
 
-	element = head;
-
-	int count = 0;
-
-	while (element != NULL)
+	for (i = 0; element != NULL; i++)
 	{
-		if (count == index)
-			return (element -> value);
-		element = element -> next;
-		count++;
+		if (i == index)
+			return (element->value);
+		element = element->next;
 	}
 
 	return value;
@@ -290,8 +288,9 @@ void List<T>::push_back(T val) {
 // was in that position is shifted to the right.
 //
 // @throws IndexOutOfBounds, if index > size.
-/* @Complexity En el caso del 'else' (para cuando el index es cualquier posición excepto la primera), la complejidad es O(n), pues la variable de control 'i' depende de la variable 'index' y esta se suma
-	en cada paso. Asimismo no hay bucles anidados. Por el otro lado, si se entra a alguno de los otros 'if' la complejidad es O(1) a razón de que solo se ejecutan 1 vez. */
+/* @Complexity En el caso del 'else' (para cuando el index es cualquier posición excepto la primera), la complejidad es O(n), pues la variable de control 'i'
+	depende de la variable 'index' y esta se suma en cada paso. Asimismo no hay bucles anidados. Por el otro lado, si se entra a alguno de los otros 'if' la
+	complejidad es O(1) a razón de que solo se ejecutan 1 vez. */
 // =================================================================
 template <class T>
 void List<T>::insert_at(T val, uint index) {
@@ -300,7 +299,7 @@ void List<T>::insert_at(T val, uint index) {
 	new_node->next = NULL;
 
 	if (index > size){
-		// index out of list's size
+		// index out of bounds
 		throw IndexOutOfBounds();
 	}
 
@@ -389,24 +388,28 @@ T List<T>::pop_back() {
 //
 // @returns the element that was in index.
 // @throws IndexOutOfBounds, if index >= size.
+/* @Complexity En el caso del 'else' (para cuando el index es cualquier posición excepto la primera o la última), la complejidad es O(n), pues la 
+	variable de control 'i' depende de la variable 'index' y esta se suma en cada paso. Tampoco hay bucles anidados. */
 // =================================================================
 template <class T>
 T List<T>::remove_at(uint index) {
-
 	if (index >= size){
+		// index out of bounds
 		throw IndexOutOfBounds();
 	}
 
 	else if (index == 0){
+		// index is the first position
 	 	return pop_front();
 	}
 
 	else if (index == size - 1){
+		// index is the last position
 		return pop_back();
 	}
 
 	else{
-
+		//index is any position but the first or the last
 		T aux;
 		Node<T> *out_node = head;
 		Node<T> *temp_node = NULL;
@@ -437,15 +440,10 @@ T List<T>::remove_at(uint index) {
 //
 // @returns the position of an item in the list, -1 otherwise.
 // @throws IndexOutOfBounds, if index >= size.
+/* @Complexity O(n), la variable de control 'index' depende técnicamente del tamaño del arreglo y en cada iteración se le suma 1. No hay ciclos anidados. */
 // =================================================================
 template <class T>
 long int List<T>::indexOf(T val) const{
-
-	if (empty())
-	{
-		throw NoSuchElement();
-	}
-
 	Node<T> *val_node;
 	val_node = head;
 	int index = -1;
