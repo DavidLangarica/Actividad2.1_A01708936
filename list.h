@@ -290,7 +290,10 @@ void List<T>::push_back(T val) {
 // was in that position is shifted to the right.
 //
 // @throws IndexOutOfBounds, if index > size.
-// Agregar complejidad
+/* @Complexity omplejidad O(n), pues
+ * esta suma depende linealmente del elemento 'n' de la función, dicha 'n'
+ * define cuantas veces se estará implementando el ciclo for en la suma, ya que
+ * la variable de control 'i' depende precisamente de la variable 'n' para dicha acción. */
 // =================================================================
 template <class T>
 void List<T>::insert_at(T val, uint index) {
@@ -299,15 +302,18 @@ void List<T>::insert_at(T val, uint index) {
 	new_node->next = NULL;
 
 	if (index > size){
+		// index out of list's size
 		throw IndexOutOfBounds();
 	}
 
 	else if (index == 0){
+		// index is the first position
 		new_node->next = head;
 		head = new_node;
 	}
 
 	else {
+		// index is any position but the first
 		Node<T> *temp_node = new Node<T>(val);
 		temp_node = head;
 
